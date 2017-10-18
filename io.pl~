@@ -83,22 +83,6 @@ chain(Player,X,Y,Board):-
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,-1,0,N,Board),N>0.
 
-transformeAndWriteY(Y):-(Y=:=1->write('a');
-                        Y=:=2->write('b');
-                        Y=:=3->write('c');
-                        Y=:=4->write('d');
-                        Y=:=5->write('e');
-                        Y=:=6->write('f');
-                        Y=:=7->write('g');
-                        Y=:=8->write('h')).
 
-reportMove(Player,X,Y):-
-    isOnBoard(X,Y),
-    write(Player),
-    write(' played on '),
-    write(X),
-    transformeAndWriteY(Y).
 
-reportNoMove(Player):-
-     write(Player),
-     write(' has an illigal move').
+
