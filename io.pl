@@ -1,5 +1,4 @@
-%:-module('display', [displayBoard/1, getLegalMove/4, reportMove/3,
-% reportNoMove/1, reportStalemate/0, reportWinner/1, welcome/0]).
+:-module('io', [displayBoard/1, getLegalMove/4, reportMove/3,reportNoMove/1, reportStalemate/0, reportWinner/1, welcome/0]).
 
 % Board =
 % [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,-1,0,0,0],[0,0,0,-1,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]].
@@ -102,3 +101,13 @@ reportMove(Player,X,Y):-
 reportNoMove(Player):-
      write(Player),
      write(' has an illigal move').
+
+reportStalemate():-
+    write('Drawn').
+
+reportWinner(Player):-
+    (Player=:=1->write('White is winner');
+    Player=:=8->write('Black is winner')).
+
+welcome():-
+    write('Welcome!').
