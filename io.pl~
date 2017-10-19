@@ -1,4 +1,6 @@
 :-module('io', [displayBoard/1, getLegalMove/4, reportMove/3,reportNoMove/1, reportStalemate/0, reportWinner/1, welcome/0]).
+:-use_module([utils]).
+
 
 % Board =
 % [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,-1,0,0,0],[0,0,0,-1,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]].
@@ -24,42 +26,35 @@ printVal(-1):- write('X ').
 
 
 displayBoard(Board) :-
-    writeln('*---------*'),
+    writeln('*-----------------------*'),
     writeln('  a  b  c  d  e  f  g  h'),
     printLists(Board,0),
-    writeln('*---------*').
+    writeln('*-----------------------*').
 
-getVal(Board, X, Y, Val) :-
-  nth0(X, Board, Column),
-  nth0(Y, Column, Val).
-
-isOnBoard(X,Y):-
-    between(1,8,X),
-    between(1,8,Y).
 
 getLegalMove(Player,X,Y,Board) :-
-    isOnBoard(X,Y),
-    getVal(Board,X,Y,0),
+    utils:isOnBoard(X,Y),
+    utils:getVal(Board,X,Y,0),
     chain(Player,X,Y,Board).
 
 chainDirection(Player,X,Y,Dx,Dy,N,Board):-
     XX is X+Dx,
     YY is Y+Dy,
-    getVal(Board,XX,YY,Player),
+    utils:getVal(Board,XX,YY,Player),
     N is 0,
     !.
 
 chainDirection(_,X,Y,Dx,Dy,N,Board):-
     XX is X+Dx,
     YY is Y+Dy,
-    getVal(Board,XX,YY,0),
+    utils:getVal(Board,XX,YY,0),
     N is -10,
     !.
 
 chainDirection(Player,X,Y,Dx,Dy,N,Board):-
     XX is X+Dx,
     YY is Y+Dy,
-    isOnBoard(X,Y),
+    utils:isOnBoard(X,Y),
     chainDirection(Player,XX,YY,Dx,Dy,NN,Board),
     N is NN+1.
 
@@ -68,19 +63,19 @@ chainDirection(Player,X,Y,Dx,Dy,N,Board):-
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,-1,-1,N,Board),N>0.
 chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,0,-1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,-1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,0,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,0,1,N,Board),N>0.
+    chainDirection(Player,X,Y,-1,0,N,Board),N>0.
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,-1,1,N,Board),N>0.
 chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,-1,0,N,Board),N>0.
+    chainDirection(Player,X,Y,0,1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,0,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,-1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,0,-1,N,Board),N>0.
 
 transformeAndWriteY(Y):-(Y=:=1->write('a');
                         Y=:=2->write('b');
@@ -91,23 +86,31 @@ transformeAndWriteY(Y):-(Y=:=1->write('a');
                         Y=:=7->write('g');
                         Y=:=8->write('h')).
 
+reportTurn(Player):-
+    (Player =:= 1->writeln('It\'s White\'s turn!');
+     Player =:= -1->writeln('It\'s Black\'s turn!')).
+
 reportMove(Player,X,Y):-
-    isOnBoard(X,Y),
-    write(Player),
-    write(' played on '),
+    (   Player =:= 1 -> write('White ');
+    write('Black ')),
+    write('played on '),
     write(X),
-    transformeAndWriteY(Y).
+    transformeAndWriteY(Y),
+    writeln('').
 
 reportNoMove(Player):-
      write(Player),
      write(' has an illigal move').
 
-reportStalemate():-
+reportStalemate:-
     write('Drawn').
 
-reportWinner(Player):-
-    (Player=:=1->write('White is winner');
-    Player=:=8->write('Black is winner')).
+welcome:-
+    writeln('Welcome!').
 
-welcome():-
-    write('Welcome!').
+reportWinner(Player):-
+    (Player =:= 1->write('White is winner');
+     Player =:= -1->write('Black is winner');
+     Player =:= 0->write('Drawn')).
+
+
