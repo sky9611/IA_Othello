@@ -68,19 +68,19 @@ chainDirection(Player,X,Y,Dx,Dy,N,Board):-
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,-1,-1,N,Board),N>0.
 chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,0,-1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,-1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,0,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,1,1,N,Board),N>0.
-chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,0,1,N,Board),N>0.
+    chainDirection(Player,X,Y,-1,0,N,Board),N>0.
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,-1,1,N,Board),N>0.
 chain(Player,X,Y,Board):-
-    chainDirection(Player,X,Y,-1,0,N,Board),N>0.
+    chainDirection(Player,X,Y,0,1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,0,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,1,-1,N,Board),N>0.
+chain(Player,X,Y,Board):-
+    chainDirection(Player,X,Y,0,-1,N,Board),N>0.
 
 transformeAndWriteY(Y):-(Y=:=1->write('a');
                         Y=:=2->write('b');

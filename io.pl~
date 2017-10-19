@@ -107,7 +107,7 @@ reportStalemate():-
 
 reportWinner(Player):-
     (Player=:=1->write('White is winner');
-    Player=:=-1->write('Black is winner')).
+    Player=:=8->write('Black is winner')).
 
 welcome():-
     write('Welcome!').
