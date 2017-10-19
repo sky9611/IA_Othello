@@ -13,7 +13,7 @@ play(Player,Board):-
     (   end:noMoreLegalSquares(Board)->end:winner(Board,X);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play(NewPlayer,Board);
         io:reportTurn(Player),
-        utils:readInput(Player,Board),
+        utils:readInput(Player,X,Y,Board),
         fill:fillAndFlip(X,Y,Player,Board,NewBoard),
         io:displayBoard(NewBoard),
         utils:changePlayer(Player,NewPlayer),
