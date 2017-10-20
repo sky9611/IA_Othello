@@ -46,15 +46,13 @@ transformeX(N,NN):-
    N =:= 7->NN = 6;
    N =:= 8->NN = 7).
 
-
-
 readInput(Player,X,Y,Board):-
     write('play where?'),
     read([N,Al]),
-    transformeX(N,X),
-    transformeY(Al,Y),
-    io:getLegalMove(Player,X,Y,Board)->io:reportMove(Player,N,Al);
-    writeln('Wrong Move!'),readInput(Player,_,_,Board).
+    transformeX(N,XX),
+    transformeY(Al,YY),
+    (   io:getLegalMove(Player,XX,YY,Board)->X is XX, Y is YY, io:reportMove(Player,N,Al);
+    writeln('Wrong Move!'),readInput(Player,X,Y,Board)).
     %il faut un input comme "[3,5]."
     %reportMove(Player,X,Y).
 
