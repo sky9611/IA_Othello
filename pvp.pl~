@@ -8,9 +8,8 @@ play :-
     utils:isBlack(Black),
     play(Black,Board).
 
-
 play(Player,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,X);
+    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play(NewPlayer,Board);
         io:reportTurn(Player),
         utils:readInput(Player,X,Y,Board),

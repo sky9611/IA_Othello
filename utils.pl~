@@ -53,8 +53,8 @@ readInput(Player,X,Y,Board):-
     read([N,Al]),
     transformeX(N,X),
     transformeY(Al,Y),
-    (io:getLegalMove(Player,X,Y,Board)->io:reportMove(Player,X,Y);
-    writeln('Wrong Move!'),readInput(Player,_,_,Board)).
+    io:getLegalMove(Player,X,Y,Board)->io:reportMove(Player,N,Al);
+    writeln('Wrong Move!'),readInput(Player,_,_,Board).
     %il faut un input comme "[3,5]."
     %reportMove(Player,X,Y).
 

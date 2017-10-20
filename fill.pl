@@ -27,7 +27,6 @@ fillAndFlip(X,Y,Player,PreBoard,N8NewBoard):-
     %writeln('pass'),
     replace(PreBoard,X,Y,Player,NewBoard),
     %writeln('after replace X,Y: '),io:displayBoard(NewBoard),
-    %flipChain(Player,X,Y,NewBoard,NextNewBoard),
     io:chainDirection(Player,X,Y,-1,-1,N1,NewBoard),flipPiece(X,Y,Player,NewBoard,-1,-1,N1,N1NewBoard),
     %writeln('after -1,-1: '),io:displayBoard(N1NewBoard),
     io:chainDirection(Player,X,Y,-1,0,N2,N1NewBoard),flipPiece(X,Y,Player,N1NewBoard,-1,0,N2,N2NewBoard),
@@ -43,17 +42,26 @@ fillAndFlip(X,Y,Player,PreBoard,N8NewBoard):-
     io:chainDirection(Player,X,Y,1,-1,N7,N6NewBoard),flipPiece(X,Y,Player,N6NewBoard,1,-1,N7,N7NewBoard),
     %writeln('after 1,-1: '),io:displayBoard(N7NewBoard),
     io:chainDirection(Player,X,Y,0,-1,N8,N7NewBoard),flipPiece(X,Y,Player,N7NewBoard,0,-1,N8,N8NewBoard).
+    %write('N8 = '),writeln(N8),
+    %writeln('after 0,-1: '),
     %io:displayBoard(N8NewBoard).
 
-flipPiece(_,_,_,Board,_,_,0,NewBoard):-copy(Board,NewBoard),!.
-flipPiece(_,_,_,Board,_,_,N,NewBoard):-N<0,copy(Board,NewBoard),!.
-flipPiece(X,Y,Player,Board,U,V,N,NewBoard):-
+flipPiece(_,_,_,Board,_,_,0,NewBoard):-
+    %writeln('Enter N=0'),
+    copy(Board,NewBoard),!.
+flipPiece(_,_,_,Board,_,_,N,NewBoard):-
+    N<0,
+    %writeln('Enter N<0'),
+    copy(Board,NewBoard),!.
+flipPiece(X,Y,Player,Board,U,V,N,NBoard):-
     %writeln('enter flipPiece'),
     XX is X+U,
     YY is Y+V,
     replace(Board,XX,YY,Player,NewBoard),
+    %writeln('After replace: '),
+    %io:displayBoard(NewBoard),
     NN is N-1,
-    flipPiece(XX,YY,Player,NewBoard,U,V,NN,_),
-    !.
+    %write('NN = '),writeln(NN),
+    flipPiece(XX,YY,Player,NewBoard,U,V,NN,NBoard).
 
 

@@ -7,8 +7,8 @@ getVal(Board, X, Y, Val) :-
   nth0(Y, Column, Val).
 
 isOnBoard(X,Y):-
-  between(1,8,X),
-  between(1,8,Y).
+  between(0,7,X),
+  between(0,7,Y).
 
 initialBoard(Board):-
   Board = [[0,0,0,0,0,0,0,0],
@@ -53,7 +53,7 @@ readInput(Player,X,Y,Board):-
     read([N,Al]),
     transformeX(N,X),
     transformeY(Al,Y),
-    io:getLegalMove(Player,X,Y,Board)->io:reportMove(Player,X,Y);
+    io:getLegalMove(Player,X,Y,Board)->io:reportMove(Player,N,Al);
     writeln('Wrong Move!'),readInput(Player,_,_,Board).
     %il faut un input comme "[3,5]."
     %reportMove(Player,X,Y).

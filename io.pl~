@@ -1,4 +1,4 @@
-:-module('io', [displayBoard/1, getLegalMove/4, reportMove/3,reportNoMove/1, reportStalemate/0, reportWinner/1, welcome/0]).
+:-module('io', [displayBoard/1, getLegalMove/4, reportMove/3,reportNoMove/1, reportStalemate/0, reportWinner/1, welcome/0,reportTurn/1]).
 :-use_module([utils]).
 
 
@@ -37,6 +37,13 @@ getLegalMove(Player,X,Y,Board) :-
     utils:getVal(Board,X,Y,0),
     chain(Player,X,Y,Board).
 
+chainDirection(_,X,Y,Dx,Dy,N,_):-
+    XX is X+Dx,
+    YY is Y+Dy,
+    not(utils:isOnBoard(XX,YY)),
+    N is 0,
+    !.
+
 chainDirection(Player,X,Y,Dx,Dy,N,Board):-
     XX is X+Dx,
     YY is Y+Dy,
@@ -54,7 +61,7 @@ chainDirection(_,X,Y,Dx,Dy,N,Board):-
 chainDirection(Player,X,Y,Dx,Dy,N,Board):-
     XX is X+Dx,
     YY is Y+Dy,
-    utils:isOnBoard(X,Y),
+    utils:isOnBoard(XX,YY),
     chainDirection(Player,XX,YY,Dx,Dy,NN,Board),
     N is NN+1.
 
@@ -77,15 +84,6 @@ chain(Player,X,Y,Board):-
 chain(Player,X,Y,Board):-
     chainDirection(Player,X,Y,0,-1,N,Board),N>0.
 
-transformeAndWriteY(Y):-(Y=:=1->write('a');
-                        Y=:=2->write('b');
-                        Y=:=3->write('c');
-                        Y=:=4->write('d');
-                        Y=:=5->write('e');
-                        Y=:=6->write('f');
-                        Y=:=7->write('g');
-                        Y=:=8->write('h')).
-
 reportTurn(Player):-
     (Player =:= 1->writeln('It\'s White\'s turn!');
      Player =:= -1->writeln('It\'s Black\'s turn!')).
@@ -94,8 +92,7 @@ reportMove(Player,X,Y):-
     (   Player =:= 1 -> write('White ');
     write('Black ')),
     write('played on '),
-    write(X),
-    transformeAndWriteY(Y),
+    write(X),write(','),write(Y),
     writeln('').
 
 reportNoMove(Player):-
@@ -109,8 +106,8 @@ welcome:-
     writeln('Welcome!').
 
 reportWinner(Player):-
-    (Player =:= 1->write('White is winner');
-     Player =:= -1->write('Black is winner');
-     Player =:= 0->write('Drawn')).
+    (Player =:= 1 -> write('White is winner');
+     Player =:= -1 -> write('Black is winner');
+     Player =:= 0 -> write('Drawn')).
 
 
