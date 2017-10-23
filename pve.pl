@@ -22,7 +22,7 @@ play1(Player,AI,Board):-
     (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,Board);
         io:reportTurn(Player),
-        (   Player=:=AI->ai1:chooseMove(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,NewBoard);
+        (   Player=:=AI->ai1:chooseMove1(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,NewBoard);
             utils:readInput(Player,X,Y,Board),
             write(X),
             write(','),

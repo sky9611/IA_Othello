@@ -1,5 +1,22 @@
-:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isSurroundedCorner/2,isEdge/2]).
+:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isSurroundedCorner/2,isEdge/2,count/2,dot2/3]).
 :-use_module([io]).
+
+dot([], [], 0).
+dot([H1|T1], [H2|T2], Result) :-
+  Prod is H1 * H2,
+  dot(T1, T2, Remaining),
+  Result is Prod + Remaining.
+
+dot2([],[],0).
+dot2([H1|T1], [H2|T2], Result):-
+  dot(H1,H2,SUM),
+  dot2(T1,T2,Remaining),
+  Result is SUM + Remaining.
+
+
+count(P,Count) :-
+  findall(1,P,L),
+  length(L,Count).
 
 getVal(Board, X, Y, Val) :-
   nth0(X, Board, Column),
@@ -11,13 +28,13 @@ isOnBoard(X,Y):-
 
 initialBoard(Board):-
   Board = [[0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,1,-1,0,0,0],
-            [0,0,0,-1,1,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0]].
+           [0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0],
+           [0,0,0,1,-1,0,0,0],
+           [0,0,0,-1,1,0,0,0],
+           [0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0],
+           [0,0,0,0,0,0,0,0]].
 
 isBlack(Player):-
   Player = -1.
@@ -65,22 +82,28 @@ isCorner(X,Y):-
     X = 7, Y = 0;
     X = 7, Y = 7.
 
-isEdge(X,Y):-;
-    X = 0;
-    Y = 0;
-    X = 7;
-    Y = 7.
+isEdge(X,Y):-
+    X = 0,between(2,5,Y);
+    Y = 0,between(2,5,X);
+    X = 7,between(2,5,Y);
+    Y = 7,between(2,5,X).
 
-isSurroundedCorner(X,Y):-
-    X = 0, Y = 1;
-    X = 1, Y = 0;
+%star dangers are (2,b),(2,g),(7,b),(7,g)
+isStarDangerous(X,Y):-
     X = 1, Y = 1;
-    X = 0, Y = 6;
     X = 1, Y = 6;
+    X = 6, Y = 1;
+    X = 6, Y = 6.
+
+%Plus dangers are (1,b),(1,g),(2,a),(2,h),(7,a),(7,h),(8,b),(8,g)
+isPlusDangerous(X,Y):-
+    X = 0, Y = 1;
+    X = 0, Y = 6;
+    X = 1, Y = 0;
     X = 1, Y = 7;
     X = 6, Y = 0;
-    X = 6, Y = 1;
-    X = 7, Y = 1;
-    X = 6, Y = 6;
     X = 6, Y = 7;
+    X = 7, Y = 1;
     X = 7, Y = 6.
+
+

@@ -1,6 +1,6 @@
-:-module('ai1',[chooseMove/4]).
+:-module('ai1',[chooseMove1/4]).
 :-use_module([library(lists),io,fill,end,utils,ai1]).
 
-chooseMove(AI,X,Y,Board):-
-    getLegalMove(AI,X,Y,Board),!.
+chooseMove1(AI,X,Y,Board):-
+    repeat,random(0,7,X),random(0,7,Y),getLegalMove(AI,X,Y,Board),!.
 
