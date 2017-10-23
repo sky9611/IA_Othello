@@ -1,5 +1,14 @@
-:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isStarDangerous/2,isPlusDangerous/2,isEdge/2,count/2,dot2/3]).
+:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isStarDangerous/2,isPlusDangerous/2,isEdge/2,count/2,dot2/3,sumList/2,listMax/2]).
 :-use_module([io]).
+
+listMax(List, Max) :-
+    sort(List, Sorted),
+    reverse(Sorted, [Max|_]).
+
+sumList([], 0).
+sumList([H|T], Sum) :-
+   sumList(T, Rest),
+   Sum is H + Rest.
 
 dot([], [], 0).
 dot([H1|T1], [H2|T2], Result) :-
