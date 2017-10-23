@@ -1,4 +1,4 @@
-:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isSurroundedCorner/2]).
+:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isSurroundedCorner/2,isEdge/2]).
 :-use_module([io]).
 
 getVal(Board, X, Y, Val) :-

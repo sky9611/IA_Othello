@@ -65,7 +65,7 @@ isCorner(X,Y):-
     X = 7, Y = 0;
     X = 7, Y = 7.
 
-isEdge(X,Y):-;
+isEdge(X,Y):-
     X = 0;
     Y = 0;
     X = 7;
