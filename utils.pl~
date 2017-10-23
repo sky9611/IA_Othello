@@ -78,6 +78,3 @@ isSurroundedCorner(X,Y):-
     X = 6, Y = 6;
     X = 6, Y = 7;
     X = 7, Y = 6.
-
-
-
