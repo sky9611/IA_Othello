@@ -1,7 +1,6 @@
 :-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2]).
 :-use_module([io]).
 
-
 getVal(Board, X, Y, Val) :-
   nth0(X, Board, Column),
   nth0(Y, Column, Val).
@@ -60,3 +59,22 @@ changePlayer(Player,NewPlayer):-
      (Player =:= 1->NewPlayer = -1;
      Player =:= -1->NewPlayer = 1).
 
+isCorner(X,Y):-
+    X = 0, Y = 0;
+    X = 0, Y = 7;
+    X = 7, Y = 0;
+    X = 7, Y = 7.
+
+isSurroundedCorner(X,Y):-
+    X = 0, Y = 1;
+    X = 1, Y = 0;
+    X = 1, Y = 1;
+    X = 0, Y = 6;
+    X = 1, Y = 6;
+    X = 1, Y = 7;
+    X = 6, Y = 0;
+    X = 6, Y = 1;
+    X = 7, Y = 1;
+    X = 6, Y = 6;
+    X = 6, Y = 7;
+    X = 7, Y = 6.
