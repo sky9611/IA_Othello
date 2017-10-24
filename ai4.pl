@@ -1,13 +1,6 @@
 :-module('ai4',[chooseMove4/4]).
 :-use_module([library(apply),io,fill,end,utils,ai3]).
 
-bwTurn(Board,Color) :-
-    countPiece(Board,NBlack,NWhite),
-    NPiece is NBlack+NWhite,
-    X is (NPiece-4) mod 2,
-    (   X =:= 0 -> Color is 1;
-    X =:= 1 -> Color is -1).
-
 chooseMove4(AI,X,Y,Board):-
     minimax(AI,Board,[X,Y],3),!
     .
