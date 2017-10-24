@@ -15,10 +15,11 @@ chooseMove4(AI,X,Y,Board):-
 minimax(AI,CurrentPlayer,Board, BestNextBoard, Eval) :-
     (noMoreLegalSquares(Board)->
 		checkWinner(Board,Winner),
-		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999;
-		Winner =:= -AI ->
-	noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
-	Player is CurrentPlayer),
+		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999,!;
+		Winner =:= -AI -> BestNextBoard is Board, Eval is -99999;
+                Winner =:= 0 -> BestNextBoard is Board, Eval is 0);
+    noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
+    Player is CurrentPlayer),
     findall([X,Y],getLegalMove(Player,X,Y,Board),MoveList),
     maplist(ai3:fillAndFlipTemp(Board,Player),MoveList,BoardList),
     best(AI,Player,BoardList, BestNextBoard, Eval,3),!.
