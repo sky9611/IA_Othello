@@ -1,13 +1,6 @@
 :-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
 :- use_module([library(lists),io]).
 
-isLigneFull([X|L]) :-
-    X\==0,
-    isLigneFull(L).
-
-isBoardFull([L|Board]) :-
-    isLigneFull(L),
-    isBoardFull(Board).
 
 noMoreLegalSquares(Board):-
     noMoreLegalSquares(Board,1),
@@ -15,12 +8,6 @@ noMoreLegalSquares(Board):-
 
 noMoreLegalSquares(Board,Player):-
     not(io:getLegalMove(Player,_,_,Board)).
-
-
-isFinished(Board):-
-    isBoardFull(Board);
-    noMoreLegalSquares(Board).
-
 
 
 count([],_,0).
