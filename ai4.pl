@@ -16,7 +16,7 @@ minimax(AI,CurrentPlayer,Board, BestNextBoard, Eval) :-
     (noMoreLegalSquares(Board)->
 		checkWinner(Board,Winner),
 		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999;
-		Winner =:= -AI -> 
+		Winner =:= -AI ->
 	noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
 	Player is CurrentPlayer),
     findall([X,Y],getLegalMove(Player,X,Y,Board),MoveList),
@@ -35,18 +35,14 @@ best(AI,CurrentPlayer,[Board1 | BoardList], BestBoard, BestVal,Depth) :-
     best(AI,CurrentPlayer,BoardList, Board2, Eval2,NewDepth),
     betterOf(AI,Board1, Eval1, Board2, Eval2, BestBoard, BestVal).
 
-betterOf(AI,Board0, Eval0, Board1, Eval1, Board0, Eval0) :-
+betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
     bwTurn(Board0,Color),
     Color =:= AI,
-	ai3:eval(AI,Board0,Eval0),
-	ai3:eval(AI,Board1,Eval1),
     Eval0 > Eval1, !.
 
-betterOf(AI,Board0, Eval0, Board1, Eval1, Board0, Eval0) :-
+betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
     bwTurn(Board0,Color),
     Color =:= -AI,
-	ai3:eval(AI,Board0,Eval0),
-	ai3:eval(AI,Board1,Eval1),
     Eval0 < Eval1, !.
 
 betterOf(_,_, _, Board1, Eva1, Board1, Eval1).        % Otherwise Pos1 better than Pos0

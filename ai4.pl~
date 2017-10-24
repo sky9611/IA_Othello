@@ -12,10 +12,16 @@ chooseMove4(AI,X,Y,Board):-
     findall([X,Y],getLegalMove(AI,X,Y,Board),MoveList)
     .
 
-minimax(AI,CurrentPlayer,Board, BestNextPos, Eval) :-
-    findall([X,Y],getLegalMove(CurrentPlayer,X,Y,Board),MoveList),
-    maplist(ai3:fillAndFlipTemp(Board,CurrentPlayer),MoveList,BoardList),
-    best(AI,CurrentPlayer,BoardList, BestNextPos, Eval,3),!.
+minimax(AI,CurrentPlayer,Board, BestNextBoard, Eval) :-
+    (noMoreLegalSquares(Board)->
+		checkWinner(Board,Winner),
+		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999;
+		Winner =:= -AI -> 
+	noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
+	Player is CurrentPlayer),
+    findall([X,Y],getLegalMove(Player,X,Y,Board),MoveList),
+    maplist(ai3:fillAndFlipTemp(Board,Player),MoveList,BoardList),
+    best(AI,Player,BoardList, BestNextBoard, Eval,3),!.
 
 best(_,_,_,_,_,_,0).
 
@@ -29,16 +35,20 @@ best(AI,CurrentPlayer,[Board1 | BoardList], BestBoard, BestVal,Depth) :-
     best(AI,CurrentPlayer,BoardList, Board2, Eval2,NewDepth),
     betterOf(AI,Board1, Eval1, Board2, Eval2, BestBoard, BestVal).
 
-betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
+betterOf(AI,Board0, Eval0, Board1, Eval1, Board0, Eval0) :-
     bwTurn(Board0,Color),
     Color =:= AI,
+	ai3:eval(AI,Board0,Eval0),
+	ai3:eval(AI,Board1,Eval1),
     Eval0 > Eval1, !.
 
-betterOf(AI,Board0, Val0, _, Val1, Board0, Val0) :-
+betterOf(AI,Board0, Eval0, Board1, Eval1, Board0, Eval0) :-
     bwTurn(Board0,Color),
     Color =:= -AI,
-    Val0 < Val1, !.
+	ai3:eval(AI,Board0,Eval0),
+	ai3:eval(AI,Board1,Eval1),
+    Eval0 < Eval1, !.
 
-betterOf(_,_, _, Pos1, Val1, Pos1, Val1).        % Otherwise Pos1 better than Pos0
+betterOf(_,_, _, Board1, Eva1, Board1, Eval1).        % Otherwise Pos1 better than Pos0
 
 
