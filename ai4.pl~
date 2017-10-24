@@ -9,28 +9,24 @@ bwTurn(Board,Color) :-
     X =:= 1 -> Color is -1).
 
 chooseMove4(AI,X,Y,Board):-
-    findall([X,Y],getLegalMove(AI,X,Y,Board),MoveList)
-    .
+    minimax(AI,AI,Board, BestNextBoard, _,1),
+    getLegalMove(AI,X,Y,Board),
+    fillAndFlip(X,Y,AI,Board,BestNextBoard),!.
 
-minimax(AI,CurrentPlayer,Board, BestNextBoard, Eval) :-
-    (noMoreLegalSquares(Board)->
-		checkWinner(Board,Winner),
-		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999;
-		Winner =:= -AI ->
-	noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
-	Player is CurrentPlayer),
+minimax(AI,Player,Board, BestNextBoard, Eval,Depth) :-
     findall([X,Y],getLegalMove(Player,X,Y,Board),MoveList),
     maplist(ai3:fillAndFlipTemp(Board,Player),MoveList,BoardList),
-    best(AI,Player,BoardList, BestNextBoard, Eval,3),!.
+    best(AI,Player,BoardList, BestNextBoard, Eval,Depth),!.
 
-best(_,_,_,_,_,_,0).
 
-best(AI,CurrentPlayer,[Board], Board, Val,_) :-
-    minimax(AI,CurrentPlayer,Board, _, Val), !.
+best(_,_,_,_,_,0).
+
+best(AI,CurrentPlayer,[Board], Board, Val,Depth) :-
+    minimax(AI,CurrentPlayer,Board, _, Val,Depth), !.
 
 best(AI,CurrentPlayer,[Board1 | BoardList], BestBoard, BestVal,Depth) :-
     Oppo is -CurrentPlayer,
-    minimax(AI,Oppo,Board1, _, Eval1),
+    minimax(AI,Oppo,Board1, _, Eval1,Depth),
     NewDepth is Depth-1,
     best(AI,CurrentPlayer,BoardList, Board2, Eval2,NewDepth),
     betterOf(AI,Board1, Eval1, Board2, Eval2, BestBoard, BestVal).
@@ -45,6 +41,4 @@ betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
     Color =:= -AI,
     Eval0 < Eval1, !.
 
-betterOf(_,_, _, Board1, Eva1, Board1, Eval1).        % Otherwise Pos1 better than Pos0
-
-
+betterOf(_,_, _, Board1, Eval1, Board1, Eval1).        % Otherwise Pos1 better than Pos0

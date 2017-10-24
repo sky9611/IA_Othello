@@ -9,43 +9,47 @@ bwTurn(Board,Color) :-
     X =:= 1 -> Color is -1).
 
 chooseMove4(AI,X,Y,Board):-
-    findall([X,Y],getLegalMove(AI,X,Y,Board),MoveList)
+    minimax(AI,Board,[X,Y],3),!
     .
 
-minimax(AI,CurrentPlayer,Board, BestNextBoard, Eval) :-
-    (noMoreLegalSquares(Board)->
-		checkWinner(Board,Winner),
-		(Winner =:= AI -> BestNextBoard is Board, Eval is 99999,!;
-		Winner =:= -AI -> BestNextBoard is Board, Eval is -99999;
-                Winner =:= 0 -> BestNextBoard is Board, Eval is 0);
-    noMoreLegalSquares(Board,CurrentPlayer)->changePlayer(CurrentPlayer,Player);
-    Player is CurrentPlayer),
-    findall([X,Y],getLegalMove(Player,X,Y,Board),MoveList),
-    maplist(ai3:fillAndFlipTemp(Board,Player),MoveList,BoardList),
-    best(AI,Player,BoardList, BestNextBoard, Eval,3),!.
+minimax(AI, Board, [X,Y], Depth) :-
+    writeln('Enter minimax/4'),
+    minimax(AI,Depth, Board, AI, _, [X,Y]).
 
-best(_,_,_,_,_,_,0).
+/* minimax(+Depth, +Position, +Player, -BestValue, -BestMove) :-
+      Chooses the BestMove from the from the current Position
+      using the minimax algorithm searching Depth ply ahead.
+      Player indicates if this move is by player (1) or opponent (-1).
+*/
 
-best(AI,CurrentPlayer,[Board], Board, Val,_) :-
-    minimax(AI,CurrentPlayer,Board, _, Val), !.
+minimax(AI, 0, Board, _, Eval, Move) :-
+      writeln(Move),
+      writeln('Enter end of minimax/6'),
+      ai3:eval(AI,Board,Eval).
 
-best(AI,CurrentPlayer,[Board1 | BoardList], BestBoard, BestVal,Depth) :-
-    Oppo is -CurrentPlayer,
-    minimax(AI,Oppo,Board1, _, Eval1),
-    NewDepth is Depth-1,
-    best(AI,CurrentPlayer,BoardList, Board2, Eval2,NewDepth),
-    betterOf(AI,Board1, Eval1, Board2, Eval2, BestBoard, BestVal).
+minimax(AI,D, Board, CurrentPlayer, Eval, Move) :-
+      writeln('Enter minimax/6'),
+      D > 0,
+      D1 is D - 1,
+      findall([X,Y],getLegalMove(CurrentPlayer,X,Y,Board),MoveList),
+      findBestMove(AI,MoveList, Board, D1, CurrentPlayer, -1000, nil, Eval, Move).
 
-betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
-    bwTurn(Board0,Color),
-    Color =:= AI,
-    Eval0 > Eval1, !.
+/* findBestMove(+AI,+Moves,+Position,+Depth,+Player,+Value0,+Move0,-BestValue,-BestMove)
+      Chooses the Best move from the list of Moves from the current Position
+      using the minimax algorithm searching Depth ply ahead.
+      Player indicates if we are currently minimizing (-1) or maximizing (1).
+      Move0 records the best move found so far and Value0 its value.
+*/
+findBestMove(_,[], _, _, _, Eval, BestMove, Eval, BestMove):-
+      writeln(BestMove),
+      writeln('Enter end of findBestMove').
 
-betterOf(AI,Board0, Eval0, _, Eval1, Board0, Eval0) :-
-    bwTurn(Board0,Color),
-    Color =:= -AI,
-    Eval0 < Eval1, !.
-
-betterOf(_,_, _, Board1, Eva1, Board1, Eval1).        % Otherwise Pos1 better than Pos0
-
-
+findBestMove(AI,[[X,Y]|Moves],Board,D,CurrentPlayer,Eval0,Move0,BestValue,BestMove):-
+      writeln([[X,Y]|Moves]),
+      writeln('Enter findBestMove'),
+      fillAndFlip(X,Y,CurrentPlayer,Board,NewBoard),
+      Oppo is -CurrentPlayer,
+      minimax(AI, D, NewBoard, Oppo, Eval, _OppoMove),
+      ( (AI =:= CurrentPlayer,Eval > Eval0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
+      (AI =:= -CurrentPlayer,Eval < Eval0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
+      findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval0,Move0,BestValue,BestMove)).
