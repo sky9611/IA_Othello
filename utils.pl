@@ -61,6 +61,17 @@ transformeY(Al,N):-
    Al == g -> N = 6;
    Al == h -> N = 7).
 
+retransformeY(Al,N):-
+  (N == 0 -> Al = a;
+  N == 1 -> Al = b;
+  N == 2 -> Al = c;
+  N == 3 -> Al = d;
+  N == 4 -> Al = e;
+  N == 5 -> Al = f;
+  N == 6 -> Al = g;
+  N == 7 -> Al = h).
+
+
 transformeX(N,NN):-
   (N =:= 1->NN = 0;
    N =:= 2->NN = 1;
@@ -70,6 +81,17 @@ transformeX(N,NN):-
    N =:= 6->NN = 5;
    N =:= 7->NN = 6;
    N =:= 8->NN = 7).
+
+retransformeX(N,NN):-
+  (NN =:= 0->N = 1;
+   NN =:= 1->N = 2;
+   NN =:= 2->N = 3;
+   NN =:= 3->N = 4;
+   NN =:= 4->N = 5;
+   NN =:= 5->N = 6;
+   NN =:= 6->N = 7;
+   NN =:= 7->N = 8).
+
 
 readInput(Player,X,Y,Board):-
     write('play where?'),
