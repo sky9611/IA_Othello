@@ -39,9 +39,9 @@ play3(Player,AI,Board):-
         io:reportTurn(Player),
         (   Player=:=AI->chooseMove3(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,NewBoard);
             utils:readInput(Player,X,Y,Board),
-            write(X),
-            write(','),
-            writeln(Y),
+            %write(X),
+            %write(','),
+            %writeln(Y),
             fill:fillAndFlip(X,Y,Player,Board,NewBoard),
             io:displayBoard(NewBoard),
             utils:changePlayer(Player,NewPlayer),

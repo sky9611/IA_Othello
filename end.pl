@@ -1,4 +1,4 @@
-:-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2]).
+:-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
 :- use_module([library(lists),io]).
 
 isLigneFull([X|L]) :-
@@ -62,6 +62,12 @@ countWhite(Board,N):-
 countWhiteLine(List,C) :-
     count(List,1,C).
 
+checkWinner(Board,Winner):-
+	countPiece(Board,NBlack,NWhite),
+    (NBlack < NWhite->Winner is 1;
+    NBlack > NWhite->Winner is -1;
+    NBlack =:= NWhite->Winner is 0).
+	
 winner(Board,Player):-
     countPiece(Board,NBlack,NWhite),
     (NBlack < NWhite->Player is 1,io:reportWinner(Player);
