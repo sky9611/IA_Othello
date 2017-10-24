@@ -2,8 +2,10 @@
 :-use_module([library(apply),io,fill,end,utils,ai3]).
 
 chooseMove4(AI,X,Y,Board):-
-    minimax(AI,Board,[X,Y],3),!
-    .
+    minimax(AI,Board,[X,Y],3),
+    utils:retransformeX(N,X),
+    utils:retransformeY(Al,Y),
+    reportMove(AI,N,Al),!.
 
 minimax(AI, Board, [X,Y], Depth) :-
     %writeln('Enter minimax/4'),
