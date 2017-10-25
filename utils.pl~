@@ -59,7 +59,8 @@ transformeY(Al,N):-
    Al == e -> N = 4;
    Al == f -> N = 5;
    Al == g -> N = 6;
-   Al == h -> N = 7).
+   Al == h -> N = 7;
+  repeat).
 
 retransformeY(Al,N):-
   (N == 0 -> Al = a;
@@ -137,4 +138,5 @@ isPlusDangerous(X,Y):-
     X = 7, Y = 1;
     X = 7, Y = 6.
 
-
+starDangerousList(L):-
+    findall([X,Y],isStarDangerous(X,Y),L).

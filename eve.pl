@@ -5,10 +5,10 @@ playEvE :-
     io:welcome,
     utils:initialBoard( Board ),
     io:displayBoard( Board ),
-    play(-1,Board).
+    playEvE(-1,Board).
 
-play(Player,Board):-
+playEvE(Player,Board):-
     (   end:noMoreLegalSquares(Board)->end:winner(Board,_),!;
-        end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play(NewPlayer,Board);
-     (   Player =:= -1 -> ai5:chooseMove5(-1,X,Y,Board),fill:fillAndFlip(X,Y,-1,Board,NewBoard),play(1,NewBoard);
-     ai4:chooseMove4(1,X,Y,Board),fill:fillAndFlip(X,Y,1,Board,NewBoard),play(-1,NewBoard))).
+        end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),playEvE(NewPlayer,Board);
+     (   Player =:= -1 -> ai1:chooseMove1(-1,X,Y,Board),fill:fillAndFlip(X,Y,-1,Board,NewBoard),displayBoard(NewBoard),playEvE(1,NewBoard);
+     ai3:chooseMove3(1,X,Y,Board),fill:fillAndFlip(X,Y,1,Board,NewBoard),displayBoard(NewBoard),playEvE(-1,NewBoard))).

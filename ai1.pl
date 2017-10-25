@@ -2,5 +2,10 @@
 :-use_module([library(lists),io,fill,end,utils,ai1]).
 
 chooseMove1(AI,X,Y,Board):-
-    repeat,random(0,7,X),random(0,7,Y),getLegalMove(AI,X,Y,Board),!.
+    findall([XX,YY],getLegalMove(AI,XX,YY,Board),MoveList),
+    %writeln(MoveList),
+    length(MoveList,L),
+    %writeln(LL),
+    random(0,L,N),
+    nth0(N,MoveList,[X,Y]).
 
