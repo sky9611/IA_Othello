@@ -10,6 +10,16 @@ isRowFull(Board,X,Y):-
     XX is X+1,
     isRowFull(Board,XX,Y).
 
+isLineFull(_,_,8).
+
+isLineFull(Board,X,Y):-
+    utils:getVal(Board,X,Y,V),
+    %writeln(V),
+    V \== 0,
+    YY is Y+1,
+    isLineFull(Board,X,YY).
+
+
 isLigneFull([X|L]) :-
     X\==0,
     isLigneFull(L).
