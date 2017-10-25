@@ -7,7 +7,7 @@ eval(Player,Board,E):-
     E is (PositionEval+MobilityEval).
 
 chooseMove5(AI,X,Y,Board):-
-    alphaBeta(AI,Board,[X,Y],5),
+    alphaBeta(AI,Board,[X,Y],6),
     utils:retransformeX(N,X),
     utils:retransformeY(Al,Y),
     reportMove(AI,N,Al),!
@@ -37,7 +37,38 @@ alphaBeta(AI,D, Board, CurrentPlayer,Alpha, Beta, Eval, Move) :-
       D > 0,
       D1 is D - 1,
       findall([X,Y],getLegalMove(CurrentPlayer,X,Y,Board),MoveList),
-      findBestMove(AI,MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move).
+      %writeln('dsadsadsa'),
+      %utils:starDangerousList(DL),
+      %writeln(DL),
+      %writeln(MoveList),
+      %writeln('aaa'),
+      %intersection(DL,MoveList,IntersectionList),
+      %writeln(IntersectionList),
+      %writeln('bbb'),
+      %nth0(0,DL,P1),
+      %writeln(P1),
+      %nth0(0,DL,P2),
+      %nth0(0,DL,P3),
+      %nth0(0,DL,P4),
+      delete(MoveList,[1,1],List1),
+      delete(List1,[1,6],List2),
+      delete(List2,[6,1],List3),
+      delete(List3,[6,6],NewMoveList),
+      %writeln(NewMoveList),
+      %writeln('ccc'),
+      length(NewMoveList,L),
+      %write('L: '),
+      %writeln(L),
+      %write('MoveList: '),
+      %writeln(MoveList),
+      %write('IntersectionList: '),
+      %writeln(IntersectionList),
+      %write('NewMoveList: '),
+      %writeln(NewMoveList),
+      %writeln(''),
+      %writeln('ddd'),
+      (   L =:= 0 -> findBestMove(AI,MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move);
+      findBestMove(AI,NewMoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move)).
 
 /* findBestMove(+AI,+Moves,+Position,+Depth,+Player,+Value0,+Move0,-BestValue,-BestMove)
       Chooses the Best move from the list of Moves from the current Position

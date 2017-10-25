@@ -137,4 +137,5 @@ isPlusDangerous(X,Y):-
     X = 7, Y = 1;
     X = 7, Y = 6.
 
-
+starDangerousList(L):-
+    findall([X,Y],isStarDangerous(X,Y),L).

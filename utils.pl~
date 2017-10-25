@@ -61,7 +61,7 @@ transformeY(Al,N):-
    Al == g -> N = 6;
    Al == h -> N = 7).
 
-transformeY(Al,N):-
+retransformeY(Al,N):-
   (N == 0 -> Al = a;
   N == 1 -> Al = b;
   N == 2 -> Al = c;
@@ -82,7 +82,7 @@ transformeX(N,NN):-
    N =:= 7->NN = 6;
    N =:= 8->NN = 7).
 
-transformeX(N,NN):-
+retransformeX(N,NN):-
   (NN =:= 0->N = 1;
    NN =:= 1->N = 2;
    NN =:= 2->N = 3;

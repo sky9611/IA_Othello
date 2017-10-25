@@ -1,6 +1,15 @@
 :-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
 :- use_module([library(lists),io]).
 
+isRowFull(_,8,_).
+
+isRowFull(Board,X,Y):-
+    utils:getVal(Board,X,Y,V),
+    %writeln(V),
+    V \== 0,
+    XX is X+1,
+    isRowFull(Board,XX,Y).
+
 isLigneFull([X|L]) :-
     X\==0,
     isLigneFull(L).
@@ -67,7 +76,7 @@ checkWinner(Board,Winner):-
     (NBlack < NWhite->Winner is 1;
     NBlack > NWhite->Winner is -1;
     NBlack =:= NWhite->Winner is 0).
-	
+
 winner(Board,Player):-
     countPiece(Board,NBlack,NWhite),
     (NBlack < NWhite->Player is 1,io:reportWinner(Player);
