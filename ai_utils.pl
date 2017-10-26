@@ -8,6 +8,7 @@ evalEdgeStable(Player,Board,E):-
     countPieceEdgeStable(Oppo,Board,NO),
     E is 2.5*(NP-NO).
 
+%calculer le nombre des pi¨¨ces stables sur les 4 cotes
 countPieceEdgeStable(Player,Board,N):-
     (   isPieceEdgeStable(Player,0,0,Board)->N1 is 1;
     N1 is 0),(   isPieceEdgeStable(Player,0,1,Board)->N2 is N1+1;
@@ -164,20 +165,6 @@ isDownPieceSameColor(Player,X,7, Board):-
     XX is X+1,
     isDownPieceSameColor(Player,XX,7,Board).
 
-
-
-
-
-/*isPieceEdgeStable(Player,0,Y,Board):-
-    nth0(0,Board,L),end:isLigneFull(L),between(0,7,Y),getVal(Board,0,Y,Player).
-isPieceEdgeStable(Player,7,Y,Board):-
-    nth0(7,Board,L),end:isLigneFull(L),between(0,7,Y),getVal(Board,0,Y,Player).
-isPieceEdgeStable(Player,X,0,Board):-
-    end:isRowFull(Board,0,0),between(0,7,X),getVal(Board,X,0,Player).
-isPieceEdgeStable(Player,X,7,Board):-
-    end:isRowFull(Board,0,7),between(0,7,X),getVal(Board,X,7,Player).
-*/
-
 frontierLength(Board,Player,[X,Y],L):-
     %write(X),write(','),writeln(Y),
     checkBorder(Player,X,Y,_,_,Board,L).
@@ -306,8 +293,6 @@ evalBWRate(Player,Board,E):-
     (Player =:= 1,NWhite > NBlack) -> E = 100*NWhite/(NBlack+NWhite);
     (Player =:= 1,NWhite < NBlack) -> E = -100*NBlack/(NBlack+NWhite);
     (NBlack =:= NWhite) -> E = 0).
-
-%calculer le nombre des pi¨¨ces stables
 
 countTurn(Board,N):-
     countPiece(Board,NBlack,NWhite),
