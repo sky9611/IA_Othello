@@ -8,10 +8,10 @@ SWI Prolog
 # Use
 
 To launch the Human vs Human mode, execute pvp.pl and run
-'play.'
+`play.`
 To launch the Human vs Computer mode, execute pve.pl and run
-'play.'
+`play.`
 
 Format for moves:
-'[1,a].'
+`[1,a].`
 
