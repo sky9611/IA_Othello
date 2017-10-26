@@ -7,7 +7,7 @@ eval(Player,Board,E):-
     E is (PositionEval+MobilityEval).
 
 chooseMove5(AI,X,Y,Board):-
-    alphaBeta(AI,Board,[X,Y],5),
+    alphaBeta(AI,Board,[X,Y],4),
     utils:retransformeX(N,X),
     utils:retransformeY(Al,Y),
     reportMove(AI,N,Al),!
