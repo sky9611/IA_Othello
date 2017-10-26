@@ -21,6 +21,8 @@ accCp([],[]).
 accCp([H|T1],[H|T2]) :- accCp(T1,T2).
 
 
+%fillAndFlip(+X,+Y,+Player,+OldBoard,-NewBoard):-
+%calculate the new board when player played on (X,Y)
 
 fillAndFlip(X,Y,Player,PreBoard,N8NewBoard):-
     io:getLegalMove(Player,X,Y,PreBoard),
@@ -45,6 +47,11 @@ fillAndFlip(X,Y,Player,PreBoard,N8NewBoard):-
     %write('N8 = '),writeln(N8),
     %writeln('after 0,-1: '),
     %io:displayBoard(N8NewBoard).
+
+
+%fillPiece(+X,+Y,+Player,+Board,+U,+V,-NombrePieceTourne,-NewBoard):-
+% Calculate the nomber of piece that can be fliped in the direction of
+% (U,V) and return the new board.
 
 flipPiece(_,_,_,Board,_,_,0,NewBoard):-
     %writeln('Enter N=0'),
