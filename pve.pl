@@ -1,10 +1,10 @@
-:-module('pve',[play/0]).
+:-module('pve',[playPvE/0]).
 :-use_module([library(lists),io,fill,end,utils,ai1,ai3,ai4,ai2,ai5]).
 
 %Initialise le jeu
 
-play :-
-    io:welcome,
+playPvE :-
+    writeln('Human Vs AI'),
     utils:initialBoard( Board ),
     io:displayBoard( Board ),
     chooseColor(_,AI),          %Choisi la couleur
