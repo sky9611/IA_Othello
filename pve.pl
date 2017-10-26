@@ -1,5 +1,5 @@
 :-module('pve',[playPvE/0]).
-:-use_module([library(lists),io,fill,end,utils,ai1,ai3,ai4,ai2,ai5]).
+:-use_module([io,fill,end,utils,ai1,ai3,ai4,ai2,ai5]).
 
 %Initialise le jeu
 

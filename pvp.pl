@@ -1,5 +1,5 @@
 :-module('pvp',[playPvP/0]).
-:-use_module([library(lists),io,fill,end,utils]).
+:-use_module([io,fill,end,utils]).
 
 % Module pour lancer le jeu en mode player versus player
 

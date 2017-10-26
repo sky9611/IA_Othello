@@ -1,13 +1,8 @@
 :-module('ai5',[chooseMove5/4]).
-:-use_module([library(apply),io,fill,end,utils]).
-
-eval(Player,Board,E):-
-    ai3:evalPosition(Player,Board,PositionEval),
-    ai3:evalMobility(Player,Board,MobilityEval),
-    E is (PositionEval+MobilityEval).
+:-use_module([io,fill,ai_utils]).
 
 chooseMove5(AI,X,Y,Board):-
-    alphaBeta(AI,Board,[X,Y],4),
+    alphaBeta(AI,Board,[X,Y],3),
     utils:retransformeX(N,X),
     utils:retransformeY(Al,Y),
     reportMove(AI,N,Al),!
@@ -20,7 +15,7 @@ alphaBeta(AI, Board, [X,Y], Depth) :-
 
 alphaBeta(AI, 0, Board, _, _, _, Eval, _) :-
       %writeln('Enter end of alphaBeta/7'),
-      ai3:eval(AI,Board,Eval)
+      ai_utils:eval(AI,Board,Eval)
       %eval(AI,Board,Eval)
       %displayBoard(Board),
       %writeln(Eval),
@@ -28,50 +23,20 @@ alphaBeta(AI, 0, Board, _, _, _, Eval, _) :-
       .
 
 alphaBeta(AI,D, Board, CurrentPlayer,Alpha, Beta, Eval, Move) :-
-      %writeln('Enter alphaBeta/7'),
       D > 0,
       D1 is D - 1,
       findall([X,Y],getLegalMove(CurrentPlayer,X,Y,Board),MoveList),
-      %writeln('dsadsadsa'),
-      %utils:starDangerousList(DL),
-      %writeln(DL),
-      %writeln(MoveList),
-      %writeln('aaa'),
-      %intersection(DL,MoveList,IntersectionList),
-      %writeln(IntersectionList),
-      %writeln('bbb'),
-      %nth0(0,DL,P1),
-      %writeln(P1),
-      %nth0(0,DL,P2),
-      %nth0(0,DL,P3),
-      %nth0(0,DL,P4),
       delete(MoveList,[1,1],List1),
       delete(List1,[1,6],List2),
       delete(List2,[6,1],List3),
       delete(List3,[6,6],NewMoveList),
-      %writeln(NewMoveList),
-      %writeln('ccc'),
       length(NewMoveList,L),
-      %write('L: '),
-      %writeln(L),
-      %write('MoveList: '),
-      %writeln(MoveList),
-      %write('IntersectionList: '),
-      %writeln(IntersectionList),
-      %write('NewMoveList: '),
-      %writeln(NewMoveList),
-      %writeln(''),
-      %writeln('ddd'),
       (   L =:= 0 -> findBestMove(AI,MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move);
-      intersection([[0,0],[0,7],[7,0],[7,7]],NewMoveList,New2MoveList),
-      length(New2MoveList,L2),
-      (   L2 =:= 0 -> findBestMove(AI,NewMoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move));
-      findBestMove(AI,New2MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move)).
+      findBestMove(AI,NewMoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move)).
 
-/* findBestMove(+AI,+Moves,+Position,+Depth,+Player,+Value0,+Move0,-BestValue,-BestMove)
+/* findBestMove(+AI,+Moves,+Position,+Depth,+CurrentPlayer,Alpha,Beta,+Move0,-BestValue,-BestMove)
       Chooses the Best move from the list of Moves from the current Position
       using the minimax algorithm searching Depth ply ahead.
-      Player indicates if we are currently minimizing (-1) or maximizing (1).
       Move0 records the best move found so far and Value0 its value.
 */
 findBestMove(_,[], _, _, _, Eval, _, BestMove, Eval, BestMove).

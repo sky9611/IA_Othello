@@ -1,5 +1,5 @@
 :-module('ai4',[chooseMove4/4]).
-:-use_module([library(apply),io,fill,end,utils,ai3]).
+:-use_module([io,fill,ai_utils]).
 
 chooseMove4(AI,X,Y,Board):-
     minimax(AI,Board,[X,Y],3),
@@ -19,7 +19,7 @@ minimax(AI, Board, [X,Y], Depth) :-
 
 minimax(AI, 0, Board, _, Eval, _) :-
       %writeln('Enter end of minimax/6'),
-      ai3:eval(AI,Board,Eval)
+      ai_utils:eval(AI,Board,Eval)
       %displayBoard(Board),
       %writeln(Eval),
       %writeln('')
