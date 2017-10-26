@@ -63,7 +63,10 @@ alphaBeta(AI,D, Board, CurrentPlayer,Alpha, Beta, Eval, Move) :-
       %writeln(''),
       %writeln('ddd'),
       (   L =:= 0 -> findBestMove(AI,MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move);
-      findBestMove(AI,NewMoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move)).
+      intersection([[0,0],[0,7],[7,0],[7,7]],NewMoveList,New2MoveList),
+      length(New2MoveList,L2),
+      (   L2 =:= 0 -> findBestMove(AI,NewMoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move));
+      findBestMove(AI,New2MoveList, Board, D1, CurrentPlayer, Alpha, Beta, nil, Eval, Move)).
 
 /* findBestMove(+AI,+Moves,+Position,+Depth,+Player,+Value0,+Move0,-BestValue,-BestMove)
       Chooses the Best move from the list of Moves from the current Position
