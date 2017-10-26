@@ -11,23 +11,6 @@ isRowFull(Board,X,Y):-
     XX is X+1,
     isRowFull(Board,XX,Y).
 
-isRowOnlyPiece(_,_,8,_,_).
-
-isRowOnlyPiece(Player,Board,0,Y,NN) :-
-    utils:getVal(Board,0,Y,V),
-    %writeln(V),
-    (   (V=:=0,V=:=Player) -> NN is 0;
-        NN is 1).
-
-isRowOnlyPiece(Player,Board,X,Y,N):-
-    utils:getVal(Board,X,Y,V),
-    %writeln(V),
-    (   (V=:=0,V=:=Player) -> NN is N;
-    NN is N+1),
-    XX is X+1,
-    isRowOnlyPiece(Player,Board,XX,Y,NN).
-
-
 %Retourne true si une ligne est pleine
 
 isLineFull(_,_,8).
@@ -41,22 +24,6 @@ isLineFull(Board,X,Y):-
 
 %Retourne true si il n'y a plus de coup possibles
 
-isLineOnlyPiece(_,_,_,8,_).
-
-isLineOnlyPiece(Player,Board,X,0,NN) :-
-    utils:getVal(Board,X,0,V),
-    %writeln(V),
-    (   (V=:=0,V=:=Player) -> NN = 0,
-        NN = 1).
-
-isLineOnlyPiece(Player,Board,X,Y,N):-
-    utils:getVal(Board,X,Y,V),
-    %writeln(V),
-    (   (V=:=0,V=:=Player) -> NN is N;
-    NN is N+1),
-    YY is Y+1,
-    isLineOnlyPiece(Player,Board,X,YY,NN).
-
 noMoreLegalSquares(Board):-
     noMoreLegalSquares(Board,1),
     noMoreLegalSquares(Board,-1).
@@ -64,17 +31,17 @@ noMoreLegalSquares(Board):-
 noMoreLegalSquares(Board,Player):-
     not(io:getLegalMove(Player,_,_,Board)).
 
-%Compte le nombre d'lments du tableau gaux  la variable X
+%Compte le nombre d'éléments du tableau égaux à la variable X
 count([],_,0).
 count([X|T],X,Y):- count(T,X,Z), Y is 1+Z.
 count([X1|T],X,Z):- X1\=X,count(T,X,Z).
 
-%Compte les pices noires et blanches du board
+%Compte les pièces noires et blanches du board
 countPiece(Board,NBlack,NWhite):-
     countBlack(Board,NBlack),
     countWhite(Board,NWhite).
 
-%Compte les pices noires
+%Compte les pièces noires
 countBlack(Board,N):-
     nth0(0,Board,Line1),countBlackLine(Line1,N1),
     nth0(1,Board,Line2),countBlackLine(Line2,N2),
@@ -91,7 +58,7 @@ countBlack(Board,N):-
 countBlackLine(List,C) :-
     count(List,-1,C).
 
-%Compte les pices blanches
+%Compte les pièces blanches
 countWhite(Board,N):-
     nth0(0,Board,Line1),countWhiteLine(Line1,N1),
     nth0(1,Board,Line2),countWhiteLine(Line2,N2),
