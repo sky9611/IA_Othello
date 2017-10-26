@@ -1,14 +1,17 @@
 :-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
 :- use_module([library(lists),io]).
 
+%Retourne true si une colonne est pleine
+
 isRowFull(_,8,_).
 
 isRowFull(Board,X,Y):-
     utils:getVal(Board,X,Y,V),
-    %writeln(V),
     V \== 0,
     XX is X+1,
     isRowFull(Board,XX,Y).
+
+%Retourne true si une ligne est pleine
 
 isLineFull(_,_,8).
 
@@ -19,14 +22,7 @@ isLineFull(Board,X,Y):-
     YY is Y+1,
     isLineFull(Board,X,YY).
 
-
-isLigneFull([X|L]) :-
-    X\==0,
-    isLigneFull(L).
-
-isBoardFull([L|Board]) :-
-    isLigneFull(L),
-    isBoardFull(Board).
+%Retourne true si il n'y a plus de coup possibles
 
 noMoreLegalSquares(Board):-
     noMoreLegalSquares(Board,1),
@@ -35,22 +31,17 @@ noMoreLegalSquares(Board):-
 noMoreLegalSquares(Board,Player):-
     not(io:getLegalMove(Player,_,_,Board)).
 
-
-isFinished(Board):-
-    isBoardFull(Board);
-    noMoreLegalSquares(Board).
-
-
-
+%Compte le nombre d'éléments du tableau égaux à la variable X
 count([],_,0).
 count([X|T],X,Y):- count(T,X,Z), Y is 1+Z.
 count([X1|T],X,Z):- X1\=X,count(T,X,Z).
 
-
+%Compte les pièces noires et blanches du board
 countPiece(Board,NBlack,NWhite):-
     countBlack(Board,NBlack),
     countWhite(Board,NWhite).
 
+%Compte les pièces noires
 countBlack(Board,N):-
     nth0(0,Board,Line1),countBlackLine(Line1,N1),
     nth0(1,Board,Line2),countBlackLine(Line2,N2),
@@ -67,6 +58,7 @@ countBlack(Board,N):-
 countBlackLine(List,C) :-
     count(List,-1,C).
 
+%Compte les pièces blanches
 countWhite(Board,N):-
     nth0(0,Board,Line1),countWhiteLine(Line1,N1),
     nth0(1,Board,Line2),countWhiteLine(Line2,N2),
@@ -81,18 +73,21 @@ countWhite(Board,N):-
 countWhiteLine(List,C) :-
     count(List,1,C).
 
+%Retourne le vainqueur sans l'afficher dans la console, sert pour les ia
 checkWinner(Board,Winner):-
 	countPiece(Board,NBlack,NWhite),
     (NBlack < NWhite->Winner is 1;
     NBlack > NWhite->Winner is -1;
     NBlack =:= NWhite->Winner is 0).
 
+%Retourne le vainqueur et affiche son nom dans la console
 winner(Board,Player):-
     countPiece(Board,NBlack,NWhite),
     (NBlack < NWhite->Player is 1,io:reportWinner(Player);
     NBlack > NWhite->Player is -1,io:reportWinner(Player);
     NBlack =:= NWhite->Player is 0,io:reportWinner(Player)).
 
+%Affiche le score de la partie
 printScore(Board):-
     countPiece(Board,NBlack,NWhite),
     write('Score of White: '),

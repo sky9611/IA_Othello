@@ -1,15 +1,15 @@
 :-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isStarDangerous/2,isPlusDangerous/2,isEdge/2,count/2,dot2/3,sumList/2,listMax/2]).
 :-use_module([io]).
-
+%obtenir l'element maximal d'une liste.
 listMax(List, Max) :-
     sort(List, Sorted),
     reverse(Sorted, [Max|_]).
-
+% il fait la somme des element de la list.
 sumList([], 0).
 sumList([H|T], Sum) :-
    sumList(T, Rest),
    Sum is H + Rest.
-
+% produit de deux list.
 dot([], [], 0).
 dot([H1|T1], [H2|T2], Result) :-
   Prod is H1 * H2,
@@ -22,19 +22,20 @@ dot2([H1|T1], [H2|T2], Result):-
   dot2(T1,T2,Remaining),
   Result is SUM + Remaining.
 
-
+%compter le nombre de element dans la liste p.
 count(P,Count) :-
   findall(1,P,L),
   length(L,Count).
-
+% Obtenir la valeur du element avec coordonées [x,y] sur le board
 getVal(Board, X, Y, Val) :-
   nth0(X, Board, Column),
   nth0(Y, Column, Val).
-
+% se assurer que les coordonnées se sont doans le Board.
 isOnBoard(X,Y):-
   between(0,7,X),
   between(0,7,Y).
 
+% Pour initialiser le Board.
 initialBoard(Board):-
   Board = [[0,0,0,0,0,0,0,0],
            [0,0,0,0,0,0,0,0],
@@ -44,13 +45,15 @@ initialBoard(Board):-
            [0,0,0,0,0,0,0,0],
            [0,0,0,0,0,0,0,0],
            [0,0,0,0,0,0,0,0]].
-
+% Donner la valeur -1(Black o croix) a la variable Player.
 isBlack(Player):-
   Player = -1.
-
+% Donner la valeur 1(White ou cercle) a la variable Player.
 isWhite(Player):-
   Player = 1.
 
+% C'est pour transformer notre Input de X de type(a,b...,h) a une
+% coordonnée Y du tableau(0,1,...,7).
 transformeY(Al,N):-
   (Al == a -> N = 0;
    Al == b -> N = 1;
@@ -71,7 +74,8 @@ retransformeY(Al,N):-
   N == 6 -> Al = g;
   N == 7 -> Al = h).
 
-
+% C'est pour transformer notre Input de X de type(a,b...,h) a une
+% coordonnée X du tableau(0,1,....7).
 transformeX(N,NN):-
   (N =:= 1->NN = 0;
    N =:= 2->NN = 1;
@@ -92,7 +96,7 @@ retransformeX(N,NN):-
    NN =:= 6->N = 7;
    NN =:= 7->N = 8).
 
-
+% Lire les inputs
 readInput(Player,X,Y,Board):-
     write('play where?'),
     read([N,Al]),
@@ -103,16 +107,18 @@ readInput(Player,X,Y,Board):-
     %il faut un input comme "[3,5]."
     %reportMove(Player,X,Y).
 
+
+% Changer de joueur.
 changePlayer(Player,NewPlayer):-
      (Player =:= 1->NewPlayer = -1;
      Player =:= -1->NewPlayer = 1).
-
+% se sont de coordonnées du coin?
 isCorner(X,Y):-
     X = 0, Y = 0;
     X = 0, Y = 7;
     X = 7, Y = 0;
     X = 7, Y = 7.
-
+% les coordonnées [X,Y] se trouve sur le borde du tableau?
 isEdge(X,Y):-
     X = 0,between(2,5,Y);
     Y = 0,between(2,5,X);
@@ -137,5 +143,7 @@ isPlusDangerous(X,Y):-
     X = 7, Y = 1;
     X = 7, Y = 6.
 
+%List de coordonneés de tous les star dangers.
 starDangerousList(L):-
     findall([X,Y],isStarDangerous(X,Y),L).
+
