@@ -7,5 +7,8 @@ chooseMove1(AI,X,Y,Board):-
     length(MoveList,L),
     %writeln(LL),
     random(0,L,N),
-    nth0(N,MoveList,[X,Y]).
+    nth0(N,MoveList,[X,Y]),
+    utils:retransformeX(NN,X),
+    utils:retransformeY(Al,Y),
+    reportMove(AI,NN,Al).
 

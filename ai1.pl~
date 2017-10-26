@@ -3,10 +3,12 @@
 
 chooseMove1(AI,X,Y,Board):-
     findall([XX,YY],getLegalMove(AI,XX,YY,Board),MoveList),
-    writeln(MoveList),
+    %writeln(MoveList),
     length(MoveList,L),
-    LL is L-1,
-    writeln(LL),
-    random(0,LL,N),
-    nth0(N,MoveList,[X,Y]).
+    %writeln(LL),
+    random(0,L,N),
+    nth0(N,MoveList,[X,Y]),
+    utils:retransformeX(N,X),
+    utils:retransformeY(Al,Y),
+    reportMove(AI,N,Al).
 
