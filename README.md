@@ -7,13 +7,9 @@ SWI Prolog
 
 # Use
 
-To launch the Human vs Human mode, execute pvp.pl and run
+To launch the game, consult "othello.pl" and run 'play.'.
 
-`play.`
-
-To launch the Human vs Computer mode, execute pve.pl and run
-
-`play.`
+Then follow the hints to choose the mode(Human vs Human or Human vs AI) and color.
 
 
 Format for moves:
