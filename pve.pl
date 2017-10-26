@@ -8,7 +8,7 @@ play :-
     utils:initialBoard( Board ),
     io:displayBoard( Board ),
     chooseColor(_,AI),          %Choisi la couleur
-    chooseLevel(D),             %Choisi le niveau de l'ia, puis lance la boucle correspondant à l'ia choisie
+    chooseLevel(D),             %Choisi le niveau de l'ia, puis lance la boucle correspondant  l'ia choisie
     (   D=:=1->play1(-1,AI,Board);
     D=:=2->play2(-1,AI,Board);
     D=:=3->play3(-1,AI,Board);
@@ -20,17 +20,19 @@ chooseColor(Player,AI):-
     writeln('play white or black?(1 for white, -1 for black)'),
     read(Player),
     utils:changePlayer(Player,AI).
-    
+
 %Permet au joueur de choisir l'ia
 chooseLevel(D):-
     writeln('play with which level of AI?(...)'),
     read(D).
 
-/* Chaque boucle correspond à une ia.
+/* Chaque boucle correspond  une ia.
    La structure est similaire au play de PVP.
-   La seule différence est l'apparition d'un if afin de différencier si c'est le tour de l'humain ou de l'ia.
-   Si c'est à l'humain de jouer, le principe est le même que dans PVP.
-   Si c'est à l'ia de jouer, on appelle le chooseMove correspondant à l'ia afin de déterminer le coup, puis le board est mis à jour, affiché et on change de joueur.
+   La seule diffrence est l'apparition d'un if afin de diffrencier si c'est le tour de l'humain ou de l'ia.
+   Si c'est  l'humain de jouer, le principe est le mme que dans PVP.
+   Si c'est l'ia de jouer, on appelle le chooseMove correspondant l'ia
+   afin de dterminer le coup, puis le board est mis jour, affich et on
+   change de joueur.*/
 
 play1(Player,AI,Board):-
     (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
