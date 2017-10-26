@@ -39,8 +39,6 @@ isLineFull(Board,X,Y):-
     YY is Y+1,
     isLineFull(Board,X,YY).
 
-%Retourne true si il n'y a plus de coup possibles
-
 isLineOnlyPiece(_,_,_,8,_).
 
 isLineOnlyPiece(Player,Board,X,0,NN) :-
@@ -57,10 +55,13 @@ isLineOnlyPiece(Player,Board,X,Y,N):-
     YY is Y+1,
     isLineOnlyPiece(Player,Board,X,YY,NN).
 
+% Retourne true si il n'y a plus de coup possibles pour tous les 2
+% joueur
 noMoreLegalSquares(Board):-
     noMoreLegalSquares(Board,1),
     noMoreLegalSquares(Board,-1).
 
+%Retourne true si il n'y a plus de coup possibles pour Player
 noMoreLegalSquares(Board,Player):-
     not(io:getLegalMove(Player,_,_,Board)).
 
