@@ -11,10 +11,9 @@ minimax(AI, Board, [X,Y], Depth) :-
     %writeln('Enter minimax/4'),
     minimax(AI,Depth, Board, AI, _, [X,Y]).
 
-/* minimax(+Depth, +Position, +Player, -BestValue, -BestMove) :-
+/* minimax(+AI, +Depth, +Position, +CurrentPlayer, -BestValue, -BestMove) :-
       Chooses the BestMove from the from the current Position
       using the minimax algorithm searching Depth ply ahead.
-      Player indicates if this move is by player (1) or opponent (-1).
 */
 
 minimax(AI, 0, Board, _, Eval, _) :-
@@ -32,10 +31,9 @@ minimax(AI,D, Board, CurrentPlayer, Eval, Move) :-
       findall([X,Y],getLegalMove(CurrentPlayer,X,Y,Board),MoveList),
       findBestMove(AI,MoveList, Board, D1, CurrentPlayer, -1000, nil, Eval, Move).
 
-/* findBestMove(+AI,+Moves,+Position,+Depth,+Player,+Value0,+Move0,-BestValue,-BestMove)
+/* findBestMove(+AI,+Moves,+Position,+Depth,+CurrentPlayer,+Value0,+Move0,-BestValue,-BestMove)
       Chooses the Best move from the list of Moves from the current Position
       using the minimax algorithm searching Depth ply ahead.
-      Player indicates if we are currently minimizing (-1) or maximizing (1).
       Move0 records the best move found so far and Value0 its value.
 */
 findBestMove(_,[], _, _, _, Eval, BestMove, Eval, BestMove).
