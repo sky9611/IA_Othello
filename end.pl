@@ -1,4 +1,4 @@
-:-module('end',[countPiece/3,winner/2,isBoardFull/1,isFinished/1,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
+:-module('end',[countPiece/3,winner/2,noMoreLegalSquares/1,noMoreLegalSquares/2,checkWinner/2]).
 :- use_module([library(lists),io]).
 
 %Retourne true si une colonne est pleine

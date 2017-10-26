@@ -8,7 +8,7 @@ evalEdgeStable(Player,Board,E):-
     countPieceEdgeStable(Oppo,Board,NO),
     E is 2.5*(NP-NO).
 
-%calculer le nombre des pi¨¨ces stables sur les 4 cotes
+%calculer le nombre des pices stables sur les 4 cotes
 countPieceEdgeStable(Player,Board,N):-
     (   isPieceEdgeStable(Player,0,0,Board)->N1 is 1;
     N1 is 0),(   isPieceEdgeStable(Player,0,1,Board)->N2 is N1+1;
@@ -235,8 +235,8 @@ isValueBoard(VBoard):-
     VBoard = [[20,-3,11, 8, 8,11,-3,20],
               [-3,-15,-4, 1, 1,-4,-15,-3],
               [11,-4, 2, 2, 2, 2,-4,11],
-              [ 8, 1, 2,-3,-3, 2, 1, 8],
-              [ 8, 1, 2,-3,-3, 2, 1, 8],
+              [ 8, 1, 2, 2, 2, 2, 1, 8],
+              [ 8, 1, 2, 2, 2, 2, 1, 8],
               [11,-4, 2, 2, 2, 2,-4,11],
               [-3,-15,-4, 1, 1,-4,-15,-3],
               [20,-3,11, 8, 8,11,-3,20]].
