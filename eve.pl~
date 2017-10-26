@@ -8,7 +8,7 @@ playEvE :-
     playEvE(-1,Board).
 
 playEvE(Player,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore,end:winner(Board,_),!;
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),playEvE(NewPlayer,Board);
-     (   Player =:= -1 -> ai1:chooseMove1(-1,X,Y,Board),fill:fillAndFlip(X,Y,-1,Board,NewBoard),displayBoard(NewBoard),playEvE(1,NewBoard);
-     ai3:chooseMove3(1,X,Y,Board),fill:fillAndFlip(X,Y,1,Board,NewBoard),displayBoard(NewBoard),playEvE(-1,NewBoard))).
+     (   Player =:= -1 -> ai1:chooseMove1(-1,X,Y,Board),fill:fillAndFlip(X,Y,-1,Board,NewBoard),playEvE(1,NewBoard);
+     ai3:chooseMove3(1,X,Y,Board),fill:fillAndFlip(X,Y,1,Board,NewBoard),playEvE(-1,NewBoard))).

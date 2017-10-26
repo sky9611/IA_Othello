@@ -5,10 +5,20 @@ isRowFull(_,8,_).
 
 isRowFull(Board,X,Y):-
     utils:getVal(Board,X,Y,V),
-    writeln(V),
+    %writeln(V),
     V \== 0,
     XX is X+1,
     isRowFull(Board,XX,Y).
+
+isLineFull(_,_,8).
+
+isLineFull(Board,X,Y):-
+    utils:getVal(Board,X,Y,V),
+    %writeln(V),
+    V \== 0,
+    YY is Y+1,
+    isLineFull(Board,X,YY).
+
 
 isLigneFull([X|L]) :-
     X\==0,
@@ -82,3 +92,10 @@ winner(Board,Player):-
     (NBlack < NWhite->Player is 1,io:reportWinner(Player);
     NBlack > NWhite->Player is -1,io:reportWinner(Player);
     NBlack =:= NWhite->Player is 0,io:reportWinner(Player)).
+
+printScore(Board):-
+    countPiece(Board,NBlack,NWhite),
+    write('Score of White'),
+    writeln(NWhite),
+    write('Score of Black'),
+    writeln(NBlack).

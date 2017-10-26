@@ -92,3 +92,10 @@ winner(Board,Player):-
     (NBlack < NWhite->Player is 1,io:reportWinner(Player);
     NBlack > NWhite->Player is -1,io:reportWinner(Player);
     NBlack =:= NWhite->Player is 0,io:reportWinner(Player)).
+
+printScore(Board):-
+    countPiece(Board,NBlack,NWhite),
+    write('Score of White: '),
+    writeln(NWhite),
+    write('Score of Black:'),
+    writeln(NBlack).

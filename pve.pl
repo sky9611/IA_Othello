@@ -23,7 +23,7 @@ chooseLevel(D):-
     read(D).
 
 play1(Player,AI,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,Board);
         io:reportTurn(Player),
         (   Player=:=AI->ai1:chooseMove1(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),utils:changePlayer(Player,NewPlayer),play1(NewPlayer,AI,NewBoard);
@@ -37,7 +37,7 @@ play1(Player,AI,Board):-
             play1(NewPlayer,AI,NewBoard)    )).
 
 play3(Player,AI,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play3(NewPlayer,AI,Board);
         io:reportTurn(Player),
         (   Player=:=AI->chooseMove3(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),changePlayer(Player,NewPlayer),play3(NewPlayer,AI,NewBoard);
@@ -51,7 +51,7 @@ play3(Player,AI,Board):-
             play3(NewPlayer,AI,NewBoard)    )).
 
 play4(Player,AI,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play4(NewPlayer,AI,Board);
         io:reportTurn(Player),
         (   Player=:=AI->chooseMove4(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),changePlayer(Player,NewPlayer),play4(NewPlayer,AI,NewBoard);
@@ -65,7 +65,7 @@ play4(Player,AI,Board):-
             play4(NewPlayer,AI,NewBoard)    )).
 
 play2(Player,AI,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play2(NewPlayer,AI,Board);
         io:reportTurn(Player),
         (   Player=:=AI->chooseMove2(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),changePlayer(Player,NewPlayer),play2(NewPlayer,AI,NewBoard);
@@ -79,7 +79,7 @@ play2(Player,AI,Board):-
             play2(NewPlayer,AI,NewBoard)    )).
 
 play5(Player,AI,Board):-
-    (   end:noMoreLegalSquares(Board)->end:winner(Board,_);
+    (   end:noMoreLegalSquares(Board)->end:printScore(Board),end:winner(Board,_);
         end:noMoreLegalSquares(Board,Player)->utils:changePlayer(Player,NewPlayer),play5(NewPlayer,AI,Board);
         io:reportTurn(Player),
         (   Player=:=AI->chooseMove5(AI,X,Y,Board),fill:fillAndFlip(X,Y,Player,Board,NewBoard),io:displayBoard(NewBoard),changePlayer(Player,NewPlayer),play5(NewPlayer,AI,NewBoard);

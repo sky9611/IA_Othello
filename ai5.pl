@@ -17,11 +17,6 @@ alphaBeta(AI, Board, [X,Y], Depth) :-
     %writeln('Enter alphaBeta/4'),
     alphaBeta(AI,Depth, Board, AI, -1000, 1000, _, [X,Y]).
 
-/* minimax(+Depth, +Position, +Player, -BestValue, -BestMove) :-
-      Chooses the BestMove from the from the current Position
-      using the minimax algorithm searching Depth ply ahead.
-      Player indicates if this move is by player (1) or opponent (-1).
-*/
 
 alphaBeta(AI, 0, Board, _, _, _, Eval, _) :-
       %writeln('Enter end of alphaBeta/7'),
