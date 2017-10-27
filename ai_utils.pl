@@ -252,7 +252,7 @@ evalCorner(Player,Board,E):-
     getVal(Board,0,7,V2),
     getVal(Board,7,0,V3),
     getVal(Board,7,7,V4),
-    R is 25*(V1+V2+V3+V4),
+    R is 100*(V1+V2+V3+V4),
     (   Player =:= -1 -> E is -R;
     E is R).
 
@@ -265,7 +265,7 @@ evalPlusPosition(Player,Board,E):-
     (end:isRowOnlyPiece(Player,Board,0,7,1)->getVal(Board,6,7,VP6);VP6 is 0),
     (end:isLineOnlyPiece(Player,Board,7,0,1)->getVal(Board,7,1,VP7);VP7 is 0),
     (end:isLineOnlyPiece(Player,Board,7,0,1)->getVal(Board,7,6,VP8);VP8 is 0),
-    R is 25*(VP1+VP2+VP3+VP4+VP5+VP6+VP7+VP8),
+    R is 60*(VP1+VP2+VP3+VP4+VP5+VP6+VP7+VP8),
     (   Player =:= -1 -> E is -R;
     E is R).
 

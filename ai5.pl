@@ -2,7 +2,7 @@
 :-use_module([io,fill,ai_utils]).
 
 chooseMove5(AI,X,Y,Board):-
-    alphaBeta(AI,Board,[X,Y],3),
+    alphaBeta(AI,Board,[X,Y],4),
     utils:retransformeX(N,X),
     utils:retransformeY(Al,Y),
     reportMove(AI,N,Al),!
@@ -13,13 +13,10 @@ alphaBeta(AI, Board, [X,Y], Depth) :-
     alphaBeta(AI,Depth, Board, AI, -1000, 1000, _, [X,Y]).
 
 
-alphaBeta(AI, 0, Board, _, _, _, Eval, _) :-
+alphaBeta(AI, 0, Board, CurrentPlayer, _, _, Eval, _) :-
       %writeln('Enter end of alphaBeta/7'),
-      ai_utils:eval(AI,Board,Eval)
-      %eval(AI,Board,Eval)
-      %displayBoard(Board),
-      %writeln(Eval),
-      %writeln('')
+      ai_utils:eval(AI,Board,E),
+      Eval is E*(AI*CurrentPlayer)
       .
 
 alphaBeta(AI,D, Board, CurrentPlayer,Alpha, Beta, Eval, Move) :-
@@ -36,7 +33,7 @@ alphaBeta(AI,D, Board, CurrentPlayer,Alpha, Beta, Eval, Move) :-
 
 /* findBestMove(+AI,+Moves,+Position,+Depth,+CurrentPlayer,Alpha,Beta,+Move0,-BestValue,-BestMove)
       Chooses the Best move from the list of Moves from the current Position
-      using the minimax algorithm searching Depth ply ahead.
+      using the alphabeta algorithm searching Depth ply ahead.
       Move0 records the best move found so far and Value0 its value.
 */
 findBestMove(_,[], _, _, _, Eval, _, BestMove, Eval, BestMove).
@@ -52,11 +49,22 @@ findBestMove(AI,[[X,Y]|Moves],Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,Be
       Oppo is -CurrentPlayer,
       NewAlpha is -Beta,
       NewBeta is -Alpha,
-      alphaBeta(AI, D, NewBoard, Oppo, NewAlpha, NewBeta, Eval, _OppoMove),
+      alphaBeta(AI, D, NewBoard, Oppo, NewAlpha, NewBeta, E, _OppoMove),
+      Eval is -E,
+      random(0,2,R),
+      (   Eval > Beta->BestEval = Eval, BestMove = [X,Y];
+      (Eval = Beta,R =:= 0)->BestEval = Eval, BestMove = [X,Y];
+      (Eval = Beta,R =:= 1)->BestEval = Eval, BestMove = Move0;
+      Eval > Alpha -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval,Beta,[X,Y],BestEval,BestMove);
+      (Eval=Alpha,R =:= 0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval,Beta,[X,Y],BestEval,BestMove);
+      (Eval=Alpha,R =:= 1) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval,Beta,Move0,BestEval,BestMove);
+      findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,BestMove)).
       %write('Eval: '),writeln(Eval),
-      (   (AI =:= CurrentPlayer,Eval >= Beta) -> BestEval = Eval, BestMove = [X,Y];
-      (AI =:= CurrentPlayer,Eval >= Alpha) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval,Beta,[X,Y],BestEval,BestMove);
-      (AI =:= CurrentPlayer,Eval < Alpha ) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,BestMove);
-      (AI =:= -CurrentPlayer,Eval =< Alpha) -> BestEval = Eval, BestMove = [X,Y];
-      (AI =:= -CurrentPlayer,Eval =< Beta) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Eval,[X,Y],BestEval,BestMove);
-      (AI =:= -CurrentPlayer,Eval > Beta)->findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,BestMove)).
+      %(   (AI =:= CurrentPlayer,Eval >= Beta) -> BestEval = Eval, BestMove = [X,Y];
+      %(AI =:= CurrentPlayer,Eval >= Alpha) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Eval,Beta,[X,Y],BestEval,BestMove);
+      %(AI =:= CurrentPlayer,Eval < Alpha ) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,BestMove);
+      %(AI =:= -CurrentPlayer,Eval =< Alpha) -> BestEval = Eval, BestMove = [X,Y];
+      %(AI =:= -CurrentPlayer,Eval =< Beta) -> findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Eval,[X,Y],BestEval,BestMove);
+      %(AI =:= -CurrentPlayer,Eval > Beta)->findBestMove(AI,Moves,Board,D,CurrentPlayer,Alpha,Beta,Move0,BestEval,BestMove)).
+
+

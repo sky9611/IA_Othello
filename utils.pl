@@ -1,5 +1,10 @@
-:-module('utils',[getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isStarDangerous/2,isPlusDangerous/2,isEdge/2,count/2,dot2/3,sumList/2,listMax/2]).
+:-module('utils',[add_tail/3,getVal/4,isOnBoard/2,initialBoard/1,isBlack/1,isWhite/1,readInput/4,changePlayer/2,isCorner/2,isStarDangerous/2,isPlusDangerous/2,isEdge/2,count/2,dot2/3,sumList/2,listMax/2]).
 :-use_module([io]).
+
+add_tail([],X,[X]).
+add_tail([H|T],X,[H|L]):-add_tail(T,X,L).
+
+
 %obtenir l'element maximal d'une liste.
 listMax(List, Max) :-
     sort(List, Sorted),
@@ -26,11 +31,11 @@ dot2([H1|T1], [H2|T2], Result):-
 count(P,Count) :-
   findall(1,P,L),
   length(L,Count).
-% Obtenir la valeur du element avec coordonées [x,y] sur le board
+% Obtenir la valeur du element avec coordones [x,y] sur le board
 getVal(Board, X, Y, Val) :-
   nth0(X, Board, Column),
   nth0(Y, Column, Val).
-% se assurer que les coordonnées se sont doans le Board.
+% se assurer que les coordonnes se sont doans le Board.
 isOnBoard(X,Y):-
   between(0,7,X),
   between(0,7,Y).
@@ -53,7 +58,7 @@ isWhite(Player):-
   Player = 1.
 
 % C'est pour transformer notre Input de X de type(a,b...,h) a une
-% coordonnée Y du tableau(0,1,...,7).
+% coordonne Y du tableau(0,1,...,7).
 transformeY(Al,N):-
   (Al == a -> N = 0;
    Al == b -> N = 1;
@@ -75,7 +80,7 @@ retransformeY(Al,N):-
   N == 7 -> Al = h).
 
 % C'est pour transformer notre Input de X de type(a,b...,h) a une
-% coordonnée X du tableau(0,1,....7).
+% coordonne X du tableau(0,1,....7).
 transformeX(N,NN):-
   (N =:= 1->NN = 0;
    N =:= 2->NN = 1;
@@ -112,13 +117,13 @@ readInput(Player,X,Y,Board):-
 changePlayer(Player,NewPlayer):-
      (Player =:= 1->NewPlayer = -1;
      Player =:= -1->NewPlayer = 1).
-% se sont de coordonnées du coin?
+% se sont de coordonnes du coin?
 isCorner(X,Y):-
     X = 0, Y = 0;
     X = 0, Y = 7;
     X = 7, Y = 0;
     X = 7, Y = 7.
-% les coordonnées [X,Y] se trouve sur le borde du tableau?
+% les coordonnes [X,Y] se trouve sur le borde du tableau?
 isEdge(X,Y):-
     X = 0,between(2,5,Y);
     Y = 0,between(2,5,X);
@@ -143,7 +148,7 @@ isPlusDangerous(X,Y):-
     X = 7, Y = 1;
     X = 7, Y = 6.
 
-%List de coordonneés de tous les star dangers.
+%List de coordonnes de tous les star dangers.
 starDangerousList(L):-
     findall([X,Y],isStarDangerous(X,Y),L).
 

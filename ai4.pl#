@@ -47,12 +47,13 @@ findBestMove(AI,[[X,Y]|Moves],Board,D,CurrentPlayer,Eval0,Move0,BestValue,BestMo
       %write('Eval0: '),writeln(Eval0),
       fillAndFlip(X,Y,CurrentPlayer,Board,NewBoard),
       Oppo is -CurrentPlayer,
-      minimax(AI, D, NewBoard, Oppo, Eval, _OppoMove),
+      minimax(AI, D, NewBoard, Oppo, E, _OppoMove),
       %write('Eval: '),writeln(Eval),
       %write('Eval0: '),writeln(Eval0),
+      Eval is -E,
       random(0,2,R),
-      ( (AI =:= CurrentPlayer,Eval > Eval0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
-      (AI =:= CurrentPlayer,Eval = Eval0,R =:=0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
+      ( Eval > Eval0 -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
+      (AIEval = Eval0,R =:=0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
       (AI =:= CurrentPlayer,Eval = Eval0,R =:=1) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, Move0,BestValue,BestMove);
       (AI =:= -CurrentPlayer,Eval < Eval0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
       (AI =:= -CurrentPlayer,Eval = Eval0,R=:=0) -> findBestMove(AI,Moves,Board,D,CurrentPlayer, Eval, [X,Y],BestValue,BestMove);
